@@ -12,6 +12,12 @@ class Machine inherits A2I {
     }
   };
 
+  execute() : Object {
+    {
+      1;
+    }
+  };
+
   parseCmd(str : String) : Object {
     if str = "x" then
       exit <- true
@@ -20,7 +26,7 @@ class Machine inherits A2I {
         stack.layoutStack()
       else
         if str = "e" then
-          1
+          execute()
         else
           stack.push(str)
         fi
