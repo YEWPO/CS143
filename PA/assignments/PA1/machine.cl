@@ -13,11 +13,23 @@ class Machine inherits A2I {
   };
 
   parseCmd(str : String) : Object {
-    io.out_string(str.concat("\n"))
+    if str = "x" then
+      exit <- true
+    else
+      if str = "d" then
+        stack.layoutStack()
+      else
+        if str = "e" then
+          1
+        else
+          stack.push(str)
+        fi
+      fi
+    fi
   };
 
   mainLoop() : Object {
-    while (exit = false) loop
+    while exit = false loop
     {
       io.out_string(prompt);
       parseCmd(io.in_string());
