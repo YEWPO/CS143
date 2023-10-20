@@ -36,8 +36,8 @@ class Machine inherits A2I {
         stack.pop();
         let src2 : String <- stack.top() in {
           stack.pop();
-          stack.push(src2);
           stack.push(src1);
+          stack.push(src2);
         };
       }
     fi
