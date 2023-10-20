@@ -34,9 +34,14 @@ class List inherits IO {
 class Stack {
 
   top : List;
+  num : Int <- 0;
 
   empty() : Bool {
-    isvoid top
+    num = 0
+  };
+
+  size() : Int {
+    num
   };
 
   push(item : String) : List {
