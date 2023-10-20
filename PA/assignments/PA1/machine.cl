@@ -69,7 +69,11 @@ class Machine inherits A2I {
         stack.layoutStack()
       else
         if str = "e" then
-          execute()
+          if (stack.empty()) then
+            1
+          else
+            execute()
+          fi
         else
           stack.push(str)
         fi
