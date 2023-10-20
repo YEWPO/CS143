@@ -12,10 +12,30 @@ class Machine inherits A2I {
     }
   };
 
+  add() : Object {
+    1
+  };
+
+  swap() : Object {
+    1
+  };
+
   execute() : Object {
+    if stack.top() = "+" then
     {
-      1;
+      stack.pop();
+      add();
     }
+    else
+      if stack.top() = "s" then
+      {
+        stack.pop();
+        swap();
+      }
+      else
+        1
+      fi
+    fi
   };
 
   parseCmd(str : String) : Object {
