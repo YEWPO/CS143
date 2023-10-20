@@ -9,8 +9,10 @@
 
 class Main inherits IO {
 
+  machine : Machine <- (new Machine).init(">");
+
   main() : Object {
-    out_string("Hello, world!\n")
+    machine.mainLoop()
   };
 
 };
