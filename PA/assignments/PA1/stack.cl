@@ -46,12 +46,16 @@ class Stack {
 
   push(item : String) : List {
     let list : List <- (new List).init(item, top) in {
+      num <- num + 1;
       top <- list;
     }
   };
 
   pop() : Object {
-    top <- top.getPrev()
+    {
+      top <- top.getPrev();
+      num < num - 1;
+    }
   };
 
   top() : String {
