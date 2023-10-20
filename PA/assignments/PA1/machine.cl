@@ -13,11 +13,34 @@ class Machine inherits A2I {
   };
 
   add() : Object {
-    1
+    if stack.size() < 2 then
+      1
+    else
+      let src1 : Int <- a2i(stack.top()) in {
+        stack.pop();
+        let src2 : Int <- a2i(stack.top()) in {
+          stack.pop();
+          let sum : Int <- src1 + src2 in {
+            stack.push(i2a(sum));
+          };
+        };
+      }
+    fi
   };
 
   swap() : Object {
-    1
+    if stack.size() < 2 then
+      1
+    else
+      let src1 : String <- stack.top() in {
+        stack.pop();
+        let src2 : String <- stack.top() in {
+          stack.pop();
+          stack.push(src2);
+          stack.push(src1);
+        };
+      }
+    fi
   };
 
   execute() : Object {
