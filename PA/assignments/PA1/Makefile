@@ -1,9 +1,12 @@
 CLASSDIR= ../..
+BUILDDIR = ./build
 COOLC = ${CLASSDIR}/bin/coolc
 SPIM = ${CLASSDIR}/bin/spim
 
+$(shell mkdir -p $(BUILDDIR))
+
 SRC = $(shell find . -name "*.cl")
-OBJ = out.s
+OBJ = $(BUILDDIR)/out.s
 
 compile: $(OBJ)
 
@@ -20,6 +23,6 @@ test:	$(OBJ)
 	@$(SPIM) -file $^ < stack.test
 
 clean :
-	rm -f *.s
+	rm -rf $(BUILDDIR)
 
 .PHONY: compile test clean
