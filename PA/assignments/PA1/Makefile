@@ -1,24 +1,25 @@
-
-ASSN = 1
-CLASS= cs143
 CLASSDIR= ../..
-SRC= stack.cl README 
-LSRC= Makefile atoi.cl stack.test
+COOLC = ${CLASSDIR}/bin/coolc
+SPIM = ${CLASSDIR}/bin/spim
 
-CC=gcc
-CFLAGS=-g
+SRC = $(shell find . -name "*.cl")
+OBJ = out.s
 
-.c.o:
-	${CC} ${CFLAGS} -c $<
+compile: $(OBJ)
 
-compile: stack.s
+$(OBJ): $(SRC)
+	@echo + COOLC $^
+	@$(COOLC) -o $@ $^ 
 
-stack.s: stack.cl atoi.cl
-	${CLASSDIR}/bin/coolc stack.cl atoi.cl 
+run: $(OBJ)
+	@echo RUN
+	@$(SPIM) -file $^
 
-test:	compile
-	@echo stack.test
-	${CLASSDIR}/bin/spim -file stack.s < stack.test
+test:	$(OBJ)
+	@echo + TEST stack.test
+	@$(SPIM) -file $^ < stack.test
 
 clean :
-	rm -f *.s core *~
+	rm -f *.s
+
+.PHONY: compile test clean
