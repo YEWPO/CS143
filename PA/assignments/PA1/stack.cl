@@ -45,11 +45,12 @@ class Stack {
     }
   };
 
-  pop() : String {
-    let str : String <- top.getStr() in {
-      top <- top.getPrev();
-      str;
-    }
+  pop() : Object {
+    top <- top.getPrev()
+  };
+
+  top() : String {
+    top.getStr()
   };
 
   layoutStack() : Object {
