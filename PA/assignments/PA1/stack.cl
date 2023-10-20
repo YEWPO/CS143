@@ -1,4 +1,5 @@
 class List inherits IO {
+
   str : String;
   prev : List;
 
@@ -27,9 +28,11 @@ class List inherits IO {
     }
     fi
   };
+
 };
 
 class Stack {
+
   top : List;
 
   empty() : Bool {
@@ -52,4 +55,5 @@ class Stack {
   layoutStack() : Object {
     top.layoutList(top)
   };
+
 };
