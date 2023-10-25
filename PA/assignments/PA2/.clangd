@@ -1,0 +1,9 @@
+CompileFlags:
+  Add: [-g,
+        -MMD,
+        -Wall,
+        -Wno-unused,
+        -Wno-write-strings,
+        -I.,
+        -I../../include/PA2,
+        -I../../src/PA2]
