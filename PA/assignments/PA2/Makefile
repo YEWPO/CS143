@@ -4,11 +4,11 @@ BUILDDIR = ./build
 FLEX = flex
 FFLAGS = -d
 
-LEXSRC = cool.flex
+LEXSRC = cool.l
 LEXGEN = cool-lex.cc
 
 $(LEXGEN): $(LEXSRC) 
-	$(FLEX) $(FFLAGS) -o $@ $^
+	$(FLEX) $(FFLAGS) -o$@ $^
 
 CXX = g++
 LD = g++

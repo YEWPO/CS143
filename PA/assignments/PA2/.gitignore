@@ -1,3 +1,4 @@
 *.d
 *.o
-cool_lex.cc
+cool-lex.cc
+lexer
