@@ -17,7 +17,7 @@ INCLUDEDIR = . \
 						 $(CLASSDIR)/src/PA2
 CXXSRC = $(shell find . -name "*.cc")
 CXXSRC += $(LEXGEN)
-CXXFLAGS = -g -MMD -Wall -Wno-unused -Wno-write-strings
+CXXFLAGS = -g -std=c++11 -MMD -Wall -Wno-unused -Wno-write-strings
 CXXFLAGS += $(addprefix -I, $(INCLUDEDIR))
 OBJS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(CXXSRC))))
 LIBS = -lfl
