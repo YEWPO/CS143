@@ -49,9 +49,16 @@ extern YYSTYPE cool_yylval;
  * Define names for regular expressions here.
  */
 
+DIGIT           [0-9]
+
 DARROW          =>
 
 %%
+
+ /*
+  * Integer, Identifiers, and Special Notation
+  */
+{DIGIT}  { printf("An integer %s\n", yytext); }
 
  /*
   *  Nested comments
