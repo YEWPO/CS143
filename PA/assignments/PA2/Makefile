@@ -22,22 +22,21 @@ CXXFLAGS += $(addprefix -I, $(INCLUDEDIR))
 OBJS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(CXXSRC))))
 LIBS = -lfl
 
-$(BUILDDIR)/%.o: %.cc
+$(BUILDDIR)/%.o: %.cc $(LEXGEN)
 	@mkdir -p $(dir $@) && echo + CXX $<
 	@$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 -include $(addprefix $(BUILDDIR)/, $(addsuffix .d, $(basename $(CXXSRC))))
 
-BIN = lexer
+BIN = $(BUILDDIR)/lexer
 
 $(BIN): $(OBJS) $(LIBS)
 	@echo LD "->" $(BIN)
 	@$(LD) $(LDFLAGS) -o $@ $^
 
-run: $(BIN)
-	./$(BIN)
+compile: $(BIN)
 
 clean:
 	rm -rf $(BUILDDIR) $(LEXGEN)
 
-.PHONY: clean run
+.PHONY: clean run compile
