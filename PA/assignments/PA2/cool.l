@@ -63,6 +63,8 @@ ILABEL          [a-zA-Z_]
 
 TYPEID          {CLABEL}{ILABEL}*
 OBJID           {LLABEL}{ILABEL}*
+LSELFID         self
+CSELFID         SELF_TYPE
 
 DARROW          =>
 
@@ -72,6 +74,9 @@ DARROW          =>
   * Integer, Identifiers, and Special Notation
   */
 {INTEGER}   { PRINTTOKEN("Integer"); }
+
+{LSELFID}   { PRINTTOKEN("self Identifier"); }
+{CSELFID}   { PRINTTOKEN("SELF_TYPE Identifier"); }
 {TYPEID}    { PRINTTOKEN("Type Identifier"); }
 {OBJID}     { PRINTTOKEN("Object Identifier"); }
 
