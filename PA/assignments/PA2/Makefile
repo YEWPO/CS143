@@ -7,8 +7,8 @@ FFLAGS = -d
 LEXSRC = cool.l
 LEXGEN = cool-lex.cc
 
-$(LEXGEN): $(LEXSRC) 
-	$(FLEX) $(FFLAGS) -o$@ $^
+$(LEXGEN): $(LEXSRC)
+	$(FLEX) $(FFLAGS) -o$@ $<
 
 CXX = g++
 LD = g++
@@ -22,7 +22,7 @@ CXXFLAGS += $(addprefix -I, $(INCLUDEDIR))
 OBJS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(CXXSRC))))
 LIBS = -lfl
 
-$(BUILDDIR)/%.o: %.cc $(LEXGEN)
+$(BUILDDIR)/%.o: %.cc
 	@mkdir -p $(dir $@) && echo + CXX $<
 	@$(CXX) $(CXXFLAGS) -c -o $@ $<
 
@@ -35,6 +35,9 @@ $(BIN): $(OBJS) $(LIBS)
 	@$(LD) $(LDFLAGS) -o $@ $^
 
 compile: $(BIN)
+
+run: $(BIN)
+	./$< $(CODE)
 
 clean:
 	rm -rf $(BUILDDIR) $(LEXGEN)
