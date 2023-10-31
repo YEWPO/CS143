@@ -43,6 +43,8 @@ extern YYSTYPE cool_yylval;
  *  Add Your own definitions here
  */
 
+#define PRINTTOKEN(type) printf(type " %s\n", yytext)
+
 %}
 
 /*
@@ -50,6 +52,17 @@ extern YYSTYPE cool_yylval;
  */
 
 DIGIT           [0-9]
+DIGITS          [0-9]+
+
+INTEGER         [1-9]{DIGIT}*
+
+CLABEL          [A-Z]
+LLABEL          [a-z]
+LABEL           [a-zA-Z]
+ILABEL          [a-zA-Z_]
+
+TYPEID          {CLABEL}{ILABEL}*
+OBJID           {LLABEL}{ILABEL}*
 
 DARROW          =>
 
@@ -58,7 +71,9 @@ DARROW          =>
  /*
   * Integer, Identifiers, and Special Notation
   */
-{DIGIT}  { printf("An integer %s\n", yytext); }
+{INTEGER}   { PRINTTOKEN("Integer"); }
+{TYPEID}    { PRINTTOKEN("Type Identifier"); }
+{OBJID}     { PRINTTOKEN("Object Identifier"); }
 
  /*
   *  Nested comments
