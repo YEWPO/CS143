@@ -43,8 +43,6 @@ extern YYSTYPE cool_yylval;
  *  Add Your own definitions here
  */
 
-#define PRINTTOKEN(type) printf(type " %s\n", yytext)
-
 %}
 
 /*
@@ -54,31 +52,36 @@ extern YYSTYPE cool_yylval;
 DIGIT           [0-9]
 DIGITS          [0-9]+
 
-INTEGER         [1-9]{DIGIT}*
-
 CLABEL          [A-Z]
 LLABEL          [a-z]
 LABEL           [a-zA-Z]
-ILABEL          [a-zA-Z_]
+IDLABEL         [a-zA-Z_0-9]
 
-TYPEID          {CLABEL}{ILABEL}*
-OBJID           {LLABEL}{ILABEL}*
-LSELFID         self
-CSELFID         SELF_TYPE
+TYPEID          {CLABEL}{IDLABEL}*
+OBJID           {LLABEL}{IDLABEL}*
 
 DARROW          =>
+ASSIGN          <-
+LE              <=
+CLASS           class
+ELSE            else
+FI              fi
+IF              if
+IN              in
+INHERITS        inherits
+ISVOID          isvoid
+LET             let
+LOOP            loop
+POOL            pool
+THEN            then
+WHILE           while
+CASE            case
+ESAC            esac
+NEW             new
+OF              of
+NOT             not
 
 %%
-
- /*
-  * Integer, Identifiers, and Special Notation
-  */
-{INTEGER}   { PRINTTOKEN("Integer"); }
-
-{LSELFID}   { PRINTTOKEN("self Identifier"); }
-{CSELFID}   { PRINTTOKEN("SELF_TYPE Identifier"); }
-{TYPEID}    { PRINTTOKEN("Type Identifier"); }
-{OBJID}     { PRINTTOKEN("Object Identifier"); }
 
  /*
   *  Nested comments
@@ -88,13 +91,31 @@ DARROW          =>
  /*
   *  The multiple-character operators.
   */
-{DARROW}		{ return (DARROW); }
+{DARROW}		{ return DARROW; }
+{ASSIGN}		{ return ASSIGN; }
+{LE}	    	{ return LE; }
 
  /*
   * Keywords are case-insensitive except for the values true and false,
   * which must begin with a lower-case letter.
   */
-
+{CLASS}     { return CLASS; }           
+{ELSE}      { return ELSE; }            
+{FI}        { return FI; }              
+{IF}        { return IF; }              
+{IN}        { return IN; }              
+{INHERITS}  { return INHERITS; }        
+{ISVOID}    { return ISVOID; }         
+{LET}       { return LET; }             
+{LOOP}      { return LOOP; }            
+{POOL}      { return POOL; }            
+{THEN}      { return THEN; }            
+{WHILE}     { return WHILE; }           
+{CASE}      { return CASE; }            
+{ESAC}      { return ESAC; }            
+{NEW}       { return NEW; }             
+{OF}        { return OF; }              
+{NOT}       { return NOT; }             
 
  /*
   *  String constants (C syntax)
@@ -103,5 +124,22 @@ DARROW          =>
   *
   */
 
+
+ /*
+  * Integer, Identifiers, and Special Notation
+  */
+{DIGITS} {
+  yylval.symbol = inttable.add_string(yytext, yyleng);
+  return INT_CONST;
+}
+
+{TYPEID} {
+  yylval.symbol = idtable.add_string(yytext, yyleng);
+  return TYPEID;
+}
+{OBJID} {
+  yylval.symbol = idtable.add_string(yytext, yyleng);
+  return OBJECTID;
+}
 
 %%
