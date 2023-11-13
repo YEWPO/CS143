@@ -37,7 +37,7 @@ $(BIN): $(OBJS) $(LIBS)
 compile: $(BIN)
 
 run: $(BIN)
-	./$< $(CODE)
+	@./$< $(CODE)
 
 clean:
 	rm -rf $(BUILDDIR) $(LEXGEN)

@@ -99,10 +99,11 @@ FALSE           f[aA][lL][sS][eE]
 {SLINECOMMENT} {}
 {MLINECOMMENT} { BEGIN(IN_COMMENT); }
 <IN_COMMENT>{
-\*\)                BEGIN(INITIAL);
+\*\)          BEGIN(INITIAL);
 [^*\n]+
 \*
-\n                  curr_lineno++;
+<<EOF>>       { BEGIN(INITIAL); yylval.error_msg = "EOF in comment"; return ERROR; }
+\n            curr_lineno++;
 }
 
 {WHITESPACE} {}
