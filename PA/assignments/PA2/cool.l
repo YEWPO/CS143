@@ -88,12 +88,15 @@ ESAC            esac
 NEW             new
 OF              of
 NOT             not
+TRUE            t[rR][uU][eE]
+FALSE           f[aA][lL][sS][eE]
 
 %%
 
  /*
   *  Nested comments
   */
+{SLINECOMMENT} {}
 {MLINECOMMENT} { BEGIN(IN_COMMENT); }
 <IN_COMMENT>{
 \*\)                BEGIN(INITIAL);
@@ -101,8 +104,6 @@ NOT             not
 \*
 \n                  curr_lineno++;
 }
-
-{SLINECOMMENT} {}
 
 {WHITESPACE} {}
 {NEWLINE} { curr_lineno++; }
@@ -135,6 +136,8 @@ NOT             not
 {NEW}       { return NEW; }             
 {OF}        { return OF; }              
 {NOT}       { return NOT; }             
+{TRUE}      { yylval.boolean = true;  return BOOL_CONST;  }
+{FALSE}     { yylval.boolean = false; return BOOL_CONST; }
 
  /*
   *  String constants (C syntax)
