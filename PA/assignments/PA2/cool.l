@@ -45,9 +45,14 @@ extern YYSTYPE cool_yylval;
 
 %}
 
+%x IN_COMMENT
+
 /*
  * Define names for regular expressions here.
  */
+
+SLINECOMMENT    --.*$
+MLINECOMMENT    \(\*
 
 WHITESPACE      [ \f\r\t\v]
 NEWLINE         \n
@@ -86,13 +91,21 @@ NOT             not
 
 %%
 
-{WHITESPACE} {}
-{NEWLINE} { curr_lineno++; }
-
  /*
   *  Nested comments
   */
+{MLINECOMMENT} { BEGIN(IN_COMMENT); }
+<IN_COMMENT>{
+\*\)                BEGIN(INITIAL);
+[^*\n]+
+\*
+\n                  curr_lineno++;
+}
 
+{SLINECOMMENT} {}
+
+{WHITESPACE} {}
+{NEWLINE} { curr_lineno++; }
 
  /*
   *  The multiple-character operators.
