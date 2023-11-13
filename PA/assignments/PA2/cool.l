@@ -161,4 +161,6 @@ NOT             not
   return OBJECTID;
 }
 
+. { return yytext[0]; }
+
 %%
