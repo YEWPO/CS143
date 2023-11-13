@@ -49,6 +49,9 @@ extern YYSTYPE cool_yylval;
  * Define names for regular expressions here.
  */
 
+WHITESPACE      [ \f\r\t\v]
+NEWLINE         \n
+
 DIGIT           [0-9]
 DIGITS          [0-9]+
 
@@ -82,6 +85,9 @@ OF              of
 NOT             not
 
 %%
+
+{WHITESPACE} {}
+{NEWLINE} { curr_lineno++; }
 
  /*
   *  Nested comments
