@@ -32,7 +32,7 @@ extern FILE *fin; /* we read from this file */
 		YY_FATAL_ERROR( "read() in flex scanner failed");
 
 char string_buf[MAX_STR_CONST]; /* to assemble string constants */
-char *string_buf_ptr;
+char *string_buf_ptr = string_buf;
 
 extern int curr_lineno;
 extern int verbose_flag;
@@ -42,10 +42,11 @@ extern YYSTYPE cool_yylval;
 /*
  *  Add Your own definitions here
  */
-
 %}
 
 %x IN_COMMENT
+%x IN_STRING
+%x IN_REVERSE
 
 /*
  * Define names for regular expressions here.
@@ -146,6 +147,38 @@ FALSE           f[aA][lL][sS][eE]
   *  \n \t \b \f, the result is c.
   *
   */
+\" { BEGIN(IN_STRING); }
+<IN_STRING>{
+\0        { cool_yylval.error_msg = "String contains null character"; BEGIN(INITIAL); return ERROR; }
+<<EOF>>   { cool_yylval.error_msg = "EOF in string constant"; BEGIN(INITIAL); return ERROR; }
+\" {
+  yylval.symbol = stringtable.add_string(string_buf, string_buf_ptr - string_buf);
+  string_buf_ptr = string_buf;
+  BEGIN(INITIAL);
+  return STR_CONST;
+}
+\\ {
+  BEGIN(IN_REVERSE);
+}
+\n {
+  cool_yylval.error_msg = "Unterminated string constant";
+  string_buf_ptr = string_buf;
+  ++curr_lineno;
+  BEGIN(INITIAL);
+  return ERROR;
+}
+.   { *string_buf_ptr = yytext[0]; string_buf_ptr++; }
+}
+<IN_REVERSE>{
+\0  { cool_yylval.error_msg = "String contains null character"; BEGIN(IN_STRING); return ERROR; }
+<<EOF>> { cool_yylval.error_msg = "EOF in string constant"; BEGIN(IN_STRING); return ERROR; }
+n   { *string_buf_ptr = '\n'; string_buf_ptr++; BEGIN(IN_STRING); }
+b   { *string_buf_ptr = '\b'; string_buf_ptr++; BEGIN(IN_STRING); }
+t   { *string_buf_ptr = '\t'; string_buf_ptr++; BEGIN(IN_STRING); }
+f   { *string_buf_ptr = '\f'; string_buf_ptr++; BEGIN(IN_STRING); }
+\n  { curr_lineno++; BEGIN(IN_STRING); }
+.   { *string_buf_ptr = yytext[0]; string_buf_ptr++; BEGIN(IN_STRING); }
+}
 
 
  /*
